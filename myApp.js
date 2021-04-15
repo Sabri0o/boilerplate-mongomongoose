@@ -68,25 +68,36 @@ const findPeopleByName = (personName, done) => {
 
 //Use model.findOne() to Return a Single Matching Document from Your Database
 const findOneByFood = (food, done) => {
-  Person.findOne({ favoriteFoods: food }).then((thatPerson) => {
-    console.log(thatPerson)
-    done(null, thatPerson)
-  })
-  .catch((err) => done(err))
+  Person.findOne({ favoriteFoods: food })
+    .then((thatPerson) => {
+      console.log(thatPerson);
+      done(null, thatPerson);
+    })
+    .catch((err) => done(err));
 };
 
 //Use model.findById() to Search Your Database By _id
 const findPersonById = (personId, done) => {
-  Person.findById({ _id: personId }).then((thatPerson) => {
-      console.log(thatPerson)
-      done(null, thatPerson)
+  Person.findById({ _id: personId })
+    .then((thatPerson) => {
+      console.log(thatPerson);
+      done(null, thatPerson);
     })
-    .catch((err) => done(err))};
+    .catch((err) => done(err));
+};
 
+// Perform Classic Updates by Running Find, Edit, then Save
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
-
-  done(null /*, data*/);
+  Person.findById({ _id: personId })
+    .then((thatPerson) => {
+      thatPerson.favoriteFoods.push(foodToAdd);
+      thatPerson.save(function (err, doc) {
+        if (err) done(err);
+        done(null, thatPerson);
+      });
+    })
+    .catch((err) => done(err));
 };
 
 const findAndUpdate = (personName, done) => {
