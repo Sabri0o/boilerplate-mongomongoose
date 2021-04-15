@@ -126,10 +126,12 @@ const removeById = (personId, done) => {
     .catch((err) => done(err));
 };
 
+//Delete Many Documents with model.remove()
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
-
-  done(null /*, data*/);
+  Person.remove({name:nameToRemove}).then(removedDoc=>{
+    done(null,removedDoc)
+  }).catch(err=>done(err))
 };
 
 const queryChain = (done) => {
