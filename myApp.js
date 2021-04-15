@@ -129,15 +129,25 @@ const removeById = (personId, done) => {
 //Delete Many Documents with model.remove()
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
-  Person.remove({name:nameToRemove}).then(removedDoc=>{
-    done(null,removedDoc)
-  }).catch(err=>done(err))
+  Person.remove({ name: nameToRemove })
+    .then((removedDoc) => {
+      done(null, removedDoc);
+    })
+    .catch((err) => done(err));
 };
 
+//Chain Search Query Helpers to Narrow Search Results
 const queryChain = (done) => {
   const foodToSearch = "burrito";
-
-  done(null /*, data*/);
+  var query = Person.find({ favoriteFoods: foodToSearch });
+  query
+    .sort({ name: 1 })
+    .limit(2)
+    .select(["name", "favoriteFoods"])
+    .exec(function (err, data) {
+      if (err) done(err);
+      done(null, data);
+    });
 };
 
 /** **Well Done !!**
