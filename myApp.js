@@ -103,16 +103,27 @@ const findEditThenSave = (personId, done) => {
 //Perform New Updates on a Document Using model.findOneAndUpdate()
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
-  Person.findOneAndUpdate({ name: personName }, { age: ageToSet }, { new: true }).then(thatPerson => {
-    thatPerson.save(function(err,doc){
-      if(err) done(err)
-      done(null,doc)
+  Person.findOneAndUpdate(
+    { name: personName },
+    { age: ageToSet },
+    { new: true }
+  )
+    .then((thatPerson) => {
+      thatPerson.save(function (err, doc) {
+        if (err) done(err);
+        done(null, doc);
+      });
     })
-  }).catch(err=>done(err))
+    .catch((err) => done(err));
 };
 
+// Delete One Document Using model.findByIdAndRemove
 const removeById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findByIdAndRemove({ _id: personId })
+    .then((thatPerson) => {
+      done(null, thatPerson);
+    })
+    .catch((err) => done(err));
 };
 
 const removeManyPeople = (done) => {
