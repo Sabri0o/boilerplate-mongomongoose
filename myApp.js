@@ -100,10 +100,15 @@ const findEditThenSave = (personId, done) => {
     .catch((err) => done(err));
 };
 
+//Perform New Updates on a Document Using model.findOneAndUpdate()
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
-
-  done(null /*, data*/);
+  Person.findOneAndUpdate({ name: personName }, { age: ageToSet }, { new: true }).then(thatPerson => {
+    thatPerson.save(function(err,doc){
+      if(err) done(err)
+      done(null,doc)
+    })
+  }).catch(err=>done(err))
 };
 
 const removeById = (personId, done) => {
